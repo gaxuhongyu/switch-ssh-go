@@ -9,6 +9,7 @@ var (
 	HuaweiNoPage = "screen-length 0 temporary"
 	H3cNoPage    = "screen-length disable"
 	CiscoNoPage  = "terminal length 0"
+	RuijieNoPage = "terminal length 0"
 )
 
 var sessionManager = NewSessionManager()
@@ -127,6 +128,9 @@ func (this *SessionManager) initSession(session *SSHSession, brand string) {
 		break
 	case CISCO:
 		session.WriteChannel(CiscoNoPage)
+		break
+	case RUIJIE:
+		session.WriteChannel(RuijieNoPage)
 		break
 	default:
 		return
