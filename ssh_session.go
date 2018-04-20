@@ -1,10 +1,11 @@
 package ssh
 
 import (
-	"golang.org/x/crypto/ssh"
 	"net"
 	"strings"
 	"time"
+
+	"golang.org/x/crypto/ssh"
 )
 
 /**
@@ -239,6 +240,9 @@ func (this *SSHSession) GetSSHBrand() string {
 	} else if strings.Contains(result, CISCO) {
 		LogDebug("The switch brand is <cisco>.")
 		this.brand = CISCO
+	} else if strings.Contains(result, RUIJIE) {
+		LogDebug("The switch brand is <ruijie>.")
+		this.brand = RUIJIE
 	}
 	return this.brand
 }
