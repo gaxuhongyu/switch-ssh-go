@@ -1,6 +1,8 @@
 package ssh
 
 import (
+	"fmt"
+	"strings"
 	"sync"
 	"time"
 )
@@ -202,7 +204,13 @@ func (this *SessionManager) getTimeoutSessionIndex() []string {
 	for sessionKey, SSHSession := range this.sessionCache {
 		timeDuratime := time.Now().Sub(SSHSession.GetLastUseTime())
 		if timeDuratime.Minutes() > 10 {
-			LogDebug("RunAutoClean close session<%s, unuse time=%s>", sessionKey, timeDuratime.String())
+			// 隐藏密码
+			var sessionstr string
+			sessionarry := strings.Split(sessionKey, "_")
+			if len(sessionarry) != 0 {
+				sessionstr = fmt.Sprintf("%v_******_%v", sessionarry[0], sessionarry[len(sessionarry)-1])
+			}
+			LogDebug("RunAutoClean close session<%s, unuse time=%s>", sessionstr, timeDuratime.String())
 			SSHSession.Close()
 			timeoutSessionIndex = append(timeoutSessionIndex, sessionKey)
 		}
