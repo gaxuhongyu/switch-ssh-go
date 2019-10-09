@@ -118,7 +118,7 @@ func (this *SSHSession) muxShell() error {
 		ssh.TTY_OP_ISPEED: 14400, // input speed = 14.4kbaud
 		ssh.TTY_OP_OSPEED: 14400, // output speed = 14.4kbaud
 	}
-	if err := this.session.RequestPty("vt100", 160, 100, modes); err != nil {
+	if err := this.session.RequestPty("vt100", 160, 160, modes); err != nil {
 		LogError("RequestPty error:%s", err)
 		return err
 	}
@@ -229,7 +229,7 @@ func (this *SSHSession) GetSSHBrand() string {
 	}
 	//显示版本后需要多一组空格，避免版本信息过多需要分页，导致分页指令第一个字符失效的问题
 	this.WriteChannel("dis version", "     ", "show version", "     ")
-	result := this.ReadChannelTiming(time.Second)
+	result := this.ReadChannelTiming(3 * time.Second)
 	result = strings.ToLower(result)
 	if strings.Contains(result, HUAWEI) {
 		LogDebug("The switch brand is <huawei>.")
